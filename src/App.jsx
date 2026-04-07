@@ -5,7 +5,6 @@ import { Menu as MenuIcon, X } from 'lucide-react';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Prevent scrolling when the menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -14,7 +13,6 @@ function App() {
     }
   }, [isMenuOpen]);
 
-  // Menu Animation Variants
   const menuVariants = {
     closed: { opacity: 0, y: "-100%" },
     open: { 
@@ -46,7 +44,6 @@ function App() {
             exit="closed"
             className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col justify-center items-center"
           >
-            {/* Close Button - Fixed to be highly clickable */}
             <button 
               onClick={() => setIsMenuOpen(false)}
               className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 z-[110] cursor-pointer"
@@ -55,7 +52,6 @@ function App() {
               <X size={24} strokeWidth={1} />
             </button>
 
-            {/* Menu Links */}
             <div className="flex flex-col items-center gap-8 md:gap-12 text-center">
               {['Home', 'The Experience', 'Selected Works', 'Philosophy', 'Inquire'].map((link, i) => (
                 <motion.a 
@@ -74,7 +70,6 @@ function App() {
               ))}
             </div>
 
-            {/* Menu Footer */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -87,14 +82,13 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Navigation - Fixed clickability issues */}
+      {/* Navigation */}
       <nav className="fixed w-full top-0 z-[60] flex justify-between items-center px-6 py-6 md:px-12 pointer-events-none">
         <div className="text-xs md:text-sm tracking-[0.2em] font-light hidden md:block mix-blend-difference pointer-events-auto">MILAN / LONDON</div>
         <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto cursor-pointer mix-blend-difference pointer-events-auto">
           DONATELLA NICOLINI
         </div>
         
-        {/* Desktop menu trigger */}
         <button 
           onClick={() => setIsMenuOpen(true)}
           className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 pointer-events-auto cursor-pointer mix-blend-difference"
@@ -103,7 +97,6 @@ function App() {
           <span>MENU</span>
         </button>
 
-        {/* Mobile menu trigger */}
         <button 
           onClick={() => setIsMenuOpen(true)}
           className="md:hidden absolute right-6 text-luxury-cream pointer-events-auto cursor-pointer mix-blend-difference"
@@ -115,8 +108,9 @@ function App() {
       {/* Hero Section */}
       <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
+          {/* IMAGE 1: The Hero Background */}
           <img 
-            src="https://images.unsplash.com/photo-1515347619362-720bba800f72?q=80&w=2070&auto=format&fit=crop" 
+            src="/hero-bg.jpg" 
             alt="Editorial Background" 
             className="w-full h-full object-cover opacity-60 scale-105"
           />
@@ -125,21 +119,18 @@ function App() {
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center mt-20 px-4 w-full">
           
-          {/* Custom Luxury SVG Emblem - Fixed Centering */}
+          {/* Custom Logo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1, rotate: 360 }}
-            transition={{ 
-              opacity: { duration: 2, delay: 0.2 },
-              scale: { duration: 2, delay: 0.2 },
-              rotate: { duration: 40, repeat: Infinity, ease: "linear" } 
-            }}
-            className="mb-8 opacity-80 mx-auto flex justify-center items-center w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+            className="mb-8 mx-auto flex justify-center items-center w-24 h-24 md:w-32 md:h-32"
           >
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="48" stroke="#C5A880" strokeWidth="1" strokeDasharray="4 4"/>
-              <path d="M50 15L53.5 46.5L85 50L53.5 53.5L50 85L46.5 53.5L15 50L46.5 46.5L50 15Z" stroke="#F9F8F6" strokeWidth="1"/>
-            </svg>
+            <img 
+              src="/logo.png" 
+              alt="Custom Logo" 
+              className="w-full h-full object-contain drop-shadow-2xl"
+            />
           </motion.div>
 
           <motion.p 
@@ -190,7 +181,7 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Selected Works Gallery */}
+      {/* Selected Works Gallery (Expanded to 6 Images) */}
       <section className="w-full px-6 md:px-12 lg:px-24 pb-24 md:pb-40 bg-luxury-dark">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -203,34 +194,35 @@ function App() {
           <a href="#" className="text-xs tracking-[0.1em] border-b border-luxury-cream/30 pb-1 hover:border-luxury-cream transition-colors">VIEW ARCHIVE</a>
         </motion.div>
 
+        {/* 6 Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1 }}
-            className="w-full h-[60vh] md:h-[80vh] bg-neutral-900"
-          >
-            <img src="https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?q=80&w=1000&auto=format&fit=crop" alt="Editorial 1" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          
+          {/* Row 1 */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.1 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
+            <img src="/gallery-1.jpg" alt="Editorial 1" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
           </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.3 }}
-            className="w-full h-[60vh] md:h-[80vh] md:mt-12 bg-neutral-900"
-          >
-            <img src="https://images.unsplash.com/photo-1554491068-1e427edce6eb?q=80&w=1000&auto=format&fit=crop" alt="Editorial 2" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.3 }} className="w-full h-[60vh] md:h-[80vh] md:mt-12 bg-neutral-900">
+            <img src="/gallery-2.jpg" alt="Editorial 2" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
           </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.5 }}
-            className="w-full h-[60vh] md:h-[80vh] bg-neutral-900"
-          >
-            <img src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?q=80&w=1000&auto=format&fit=crop" alt="Editorial 3" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.5 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
+            <img src="/gallery-3.jpg" alt="Editorial 3" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
           </motion.div>
+
+          {/* Row 2 */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.2 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
+            <img src="/gallery-4.jpg" alt="Editorial 4" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.4 }} className="w-full h-[60vh] md:h-[80vh] md:mt-12 bg-neutral-900">
+            <img src="/gallery-5.jpg" alt="Editorial 5" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          </motion.div>
+          
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.6 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
+            <img src="/gallery-6.jpg" alt="Editorial 6" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
+          </motion.div>
+
         </div>
       </section>
 
