@@ -1,19 +1,111 @@
-import { motion } from 'framer-motion';
-import { Menu } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu as MenuIcon, X } from 'lucide-react';
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Prevent scrolling when the menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
+
+  // Menu Animation Variants
+  const menuVariants = {
+    closed: { opacity: 0, y: "-100%" },
+    open: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+    }
+  };
+
+  const linkVariants = {
+    closed: { opacity: 0, y: 20 },
+    open: (i) => ({
+      opacity: 1, 
+      y: 0,
+      transition: { delay: 0.4 + (i * 0.1), duration: 0.8, ease: "easeOut" }
+    })
+  };
+
   return (
     <div className="min-h-screen bg-luxury-dark text-luxury-cream font-sans overflow-x-hidden">
       
+      {/* Fullscreen Interactive Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            variants={menuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col justify-center items-center"
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500"
+            >
+              <span className="hidden md:inline">CLOSE</span>
+              <X size={24} strokeWidth={1} />
+            </button>
+
+            {/* Menu Links */}
+            <div className="flex flex-col items-center gap-8 md:gap-12 text-center">
+              {['Home', 'The Experience', 'Selected Works', 'Philosophy', 'Inquire'].map((link, i) => (
+                <motion.a 
+                  key={link}
+                  href="#"
+                  custom={i}
+                  variants={linkVariants}
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-3xl md:text-5xl font-serif text-luxury-cream hover:text-luxury-gold hover:italic transition-all duration-500"
+                >
+                  {link}
+                </motion.a>
+              ))}
+            </div>
+
+            {/* Menu Footer */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="absolute bottom-12 text-[10px] tracking-[0.3em] uppercase text-luxury-cream/50"
+            >
+              Milan • London • Worldwide
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation */}
       <nav className="fixed w-full top-0 z-50 flex justify-between items-center px-6 py-6 md:px-12 mix-blend-difference">
         <div className="text-xs md:text-sm tracking-[0.2em] font-light hidden md:block">MILAN / LONDON</div>
-        <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto">
+        <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto cursor-pointer">
           DONATELLA NICOLINI
         </div>
-        <button className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500">
-          <Menu size={20} strokeWidth={1} />
+        <button 
+          onClick={() => setIsMenuOpen(true)}
+          className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500"
+        >
+          <MenuIcon size={20} strokeWidth={1} />
           <span>MENU</span>
+        </button>
+        {/* Mobile menu trigger */}
+        <button 
+          onClick={() => setIsMenuOpen(true)}
+          className="md:hidden absolute right-6 text-luxury-cream mix-blend-difference"
+        >
+          <MenuIcon size={24} strokeWidth={1} />
         </button>
       </nav>
 
@@ -29,6 +121,24 @@ function App() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center mt-20 px-4">
+          
+          {/* Custom Luxury SVG Emblem */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1, rotate: 360 }}
+            transition={{ 
+              opacity: { duration: 2, delay: 0.2 },
+              scale: { duration: 2, delay: 0.2 },
+              rotate: { duration: 40, repeat: Infinity, ease: "linear" } 
+            }}
+            className="mb-8 opacity-80"
+          >
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="48" stroke="#C5A880" strokeWidth="1" strokeDasharray="4 4"/>
+              <path d="M50 15L53.5 46.5L85 50L53.5 53.5L50 85L46.5 53.5L15 50L46.5 46.5L50 15Z" stroke="#F9F8F6" strokeWidth="1"/>
+            </svg>
+          </motion.div>
+
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,7 +187,7 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Selected Works Gallery (Responsive Grid) */}
+      {/* Selected Works Gallery */}
       <section className="w-full px-6 md:px-12 lg:px-24 pb-24 md:pb-40 bg-luxury-dark">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -90,7 +200,6 @@ function App() {
           <a href="#" className="text-xs tracking-[0.1em] border-b border-luxury-cream/30 pb-1 hover:border-luxury-cream transition-colors">VIEW ARCHIVE</a>
         </motion.div>
 
-        {/* 1 col on mobile, 3 cols on desktop */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -123,10 +232,16 @@ function App() {
       </section>
 
       {/* Footer CTA */}
-      <footer className="w-full py-24 md:py-32 bg-[#0a0a0a] flex flex-col items-center text-center px-6 border-t border-white/5">
-        <h2 className="text-3xl md:text-5xl font-serif mb-8 text-luxury-cream">Reserve Your Session</h2>
-        <p className="text-sm text-luxury-cream/60 mb-10 tracking-widest uppercase">Milan — London — Worldwide</p>
-        <button className="border border-luxury-gold text-luxury-gold px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-luxury-gold hover:text-luxury-dark transition-all duration-700">
+      <footer className="w-full py-24 md:py-32 bg-[#0a0a0a] flex flex-col items-center text-center px-6 border-t border-white/5 relative overflow-hidden">
+        {/* Subtle background SVG in footer */}
+        <svg className="absolute w-[800px] h-[800px] opacity-5 -top-40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" stroke="#F9F8F6" strokeWidth="0.5"/>
+          <path d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45L50 0Z" stroke="#F9F8F6" strokeWidth="0.5"/>
+        </svg>
+
+        <h2 className="text-3xl md:text-5xl font-serif mb-8 text-luxury-cream relative z-10">Reserve Your Session</h2>
+        <p className="text-sm text-luxury-cream/60 mb-10 tracking-widest uppercase relative z-10">Milan — London — Worldwide</p>
+        <button className="border border-luxury-gold text-luxury-gold px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-luxury-gold hover:text-luxury-dark transition-all duration-700 relative z-10">
           Inquire Now
         </button>
       </footer>
