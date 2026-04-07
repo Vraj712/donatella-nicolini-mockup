@@ -14,230 +14,152 @@ function App() {
   }, [isMenuOpen]);
 
   const menuVariants = {
-    closed: { opacity: 0, y: "-100%" },
+    closed: { opacity: 0, x: "100%" },
     open: { 
       opacity: 1, 
-      y: 0,
+      x: 0,
       transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
     }
-  };
-
-  const linkVariants = {
-    closed: { opacity: 0, y: 20 },
-    open: (i) => ({
-      opacity: 1, 
-      y: 0,
-      transition: { delay: 0.4 + (i * 0.1), duration: 0.8, ease: "easeOut" }
-    })
   };
 
   return (
     <div className="min-h-screen bg-luxury-dark text-luxury-cream font-sans overflow-x-hidden">
       
-      {/* Fullscreen Interactive Menu */}
+      {/* Navigation */}
+      <nav className="fixed w-full top-0 z-[60] flex justify-between items-center px-6 py-6 md:px-12 lg:px-20 mix-blend-difference">
+        <div className="text-[10px] md:text-xs tracking-[0.3em] font-light hidden sm:block">MILAN / LONDON</div>
+        <div className="text-lg md:text-2xl font-serif tracking-[0.2em] text-center w-full sm:w-auto">
+          DONATELLA NICOLINI
+        </div>
+        <button 
+          onClick={() => setIsMenuOpen(true)}
+          className="flex items-center gap-3 text-[10px] md:text-xs tracking-[0.2em] hover:text-luxury-gold transition-colors duration-500 pointer-events-auto cursor-pointer"
+        >
+          <span className="hidden md:inline">COLLECTIONS</span>
+          <MenuIcon size={20} strokeWidth={1} />
+        </button>
+      </nav>
+
+      {/* Fullscreen Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
             variants={menuVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
+            initial="closed" animate="open" exit="closed"
             className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col justify-center items-center"
           >
-            <button 
-              onClick={() => setIsMenuOpen(false)}
-              className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 z-[110] cursor-pointer"
-            >
-              <span className="hidden md:inline">CLOSE</span>
-              <X size={24} strokeWidth={1} />
-            </button>
-
-            <div className="flex flex-col items-center gap-8 md:gap-12 text-center">
-              {['Home', 'The Experience', 'Selected Works', 'Philosophy', 'Inquire'].map((link, i) => (
-                <motion.a 
-                  key={link}
-                  href="#"
-                  custom={i}
-                  variants={linkVariants}
-                  initial="closed"
-                  animate="open"
-                  exit="closed"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-3xl md:text-5xl font-serif text-luxury-cream hover:text-luxury-gold hover:italic transition-all duration-500"
-                >
-                  {link}
-                </motion.a>
+            <button onClick={() => setIsMenuOpen(false)} className="absolute top-8 right-8 text-luxury-gold"><X size={32} strokeWidth={1}/></button>
+            <div className="flex flex-col gap-6 text-center">
+              {['Maternity', 'Portraits', 'Editorial', 'Philosophy', 'Contact'].map((item) => (
+                <a key={item} href="#" className="text-4xl md:text-6xl font-serif hover:italic hover:text-luxury-gold transition-all">{item}</a>
               ))}
             </div>
-
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 1 }}
-              className="absolute bottom-12 text-[10px] tracking-[0.3em] uppercase text-luxury-cream/50"
-            >
-              Milan • London • Worldwide
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Navigation */}
-      <nav className="fixed w-full top-0 z-[60] flex justify-between items-center px-6 py-6 md:px-12 pointer-events-none">
-        <div className="text-xs md:text-sm tracking-[0.2em] font-light hidden md:block mix-blend-difference pointer-events-auto">MILAN / LONDON</div>
-        <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto cursor-pointer mix-blend-difference pointer-events-auto">
-          DONATELLA NICOLINI
-        </div>
-        
-        <button 
-          onClick={() => setIsMenuOpen(true)}
-          className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 pointer-events-auto cursor-pointer mix-blend-difference"
-        >
-          <MenuIcon size={20} strokeWidth={1} />
-          <span>MENU</span>
-        </button>
-
-        <button 
-          onClick={() => setIsMenuOpen(true)}
-          className="md:hidden absolute right-6 text-luxury-cream pointer-events-auto cursor-pointer mix-blend-difference"
-        >
-          <MenuIcon size={24} strokeWidth={1} />
-        </button>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+      {/* Hero Section - Responsive Framing */}
+      <section className="relative h-[100svh] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
-          {/* IMAGE 1: The Hero Background */}
           <img 
             src="/hero-bg.jpg" 
-            alt="Editorial Background" 
-            className="w-full h-full object-cover opacity-60 scale-105"
+            className="w-full h-full object-cover object-[center_20%] md:object-center opacity-50 transition-all duration-1000"
+            alt="Hero"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-luxury-dark/30 via-transparent to-luxury-dark"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-luxury-dark"></div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center text-center mt-20 px-4 w-full">
-          
-          {/* Custom Logo */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, delay: 0.2 }}
-            className="mb-8 mx-auto flex justify-center items-center w-24 h-24 md:w-32 md:h-32"
-          >
-            <img 
-              src="/logo.png" 
-              alt="Custom Logo" 
-              className="w-full h-full object-contain drop-shadow-2xl"
-            />
+        <div className="relative z-10 text-center px-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>
+            <img src="/logo.png" className="w-20 h-20 md:w-32 md:h-32 mx-auto mb-8 object-contain" alt="Logo" />
+            <p className="text-[9px] md:text-xs tracking-[0.5em] uppercase mb-4 opacity-70">Fine Art Maternity</p>
+            <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif font-light mb-8 italic tracking-tight">
+              Ethereal <span className="not-italic text-luxury-gold">Grace</span>
+            </h1>
+            <button className="text-[10px] tracking-[0.3em] border-b border-luxury-gold/50 pb-2 hover:border-luxury-gold transition-all uppercase">
+              Explore the Gallery
+            </button>
           </motion.div>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-            className="text-[10px] md:text-xs tracking-[0.3em] uppercase mb-6 text-luxury-cream/80"
-          >
-            Fine Art Maternity
-          </motion.p>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-light tracking-wide leading-tight mb-8 md:mb-12"
-          >
-            Motherhood, <br />
-            <span className="italic text-luxury-gold">Elevated.</span>
-          </motion.h1>
-
-          <motion.button 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2, ease: "easeOut", delay: 1.5 }}
-            className="border border-luxury-cream/50 px-8 py-3 md:px-10 md:py-4 text-[10px] md:text-xs tracking-[0.2em] uppercase hover:bg-luxury-cream hover:text-luxury-dark transition-all duration-700 pointer-events-auto cursor-pointer"
-          >
-            Begin Your Journey
-          </motion.button>
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="w-full py-24 md:py-40 px-6 md:px-12 lg:px-32 flex flex-col items-center text-center bg-luxury-dark">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="max-w-4xl"
-        >
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-serif leading-relaxed mb-8">
-            "We do not just capture images. We craft timeless heirlooms that celebrate the ultimate expression of feminine power."
-          </h2>
-          <p className="text-sm md:text-base font-light text-luxury-cream/70 tracking-wide leading-loose max-w-2xl mx-auto">
-            Drawing inspiration from high-fashion editorial and luxury hospitality, the Donatella Nicolini experience is designed to be an exclusive sanctuary for the modern mother. 
-          </p>
-        </motion.div>
+      {/* Luxury Adaptive Grid Section */}
+      <section className="py-20 lg:py-40 px-6 md:px-12 lg:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+          
+          {/* Text Content - Responsive alignment */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="lg:col-span-5 order-2 lg:order-1"
+          >
+            <h3 className="text-luxury-gold text-[10px] tracking-[0.4em] uppercase mb-6">The Philosophy</h3>
+            <h2 className="text-3xl md:text-5xl font-serif leading-tight mb-8">
+              Capturing the <br /> <span className="italic">Divine Feminine</span>
+            </h2>
+            <p className="text-luxury-cream/60 font-light leading-relaxed mb-8 max-w-md">
+              A bespoke experience tailored for the woman who demands excellence. We blend high-fashion techniques with a deeply personal touch.
+            </p>
+            <div className="flex gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
+              <span>Milan</span>
+              <span>London</span>
+              <span>Dubai</span>
+            </div>
+          </motion.div>
+
+          {/* Featured Image - Asymmetric placement on PC */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="lg:col-span-7 order-1 lg:order-2 relative"
+          >
+            <div className="aspect-[4/5] md:aspect-video lg:aspect-[4/5] overflow-hidden">
+              <img src="/gallery-1.jpg" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Work" />
+            </div>
+            {/* Floating Label - Only visible on PC/Tablet */}
+            <div className="hidden sm:block absolute -bottom-6 -left-6 bg-luxury-dark border border-white/10 p-8">
+              <p className="text-[10px] tracking-widest uppercase text-luxury-gold">Maternity Editorial No. 04</p>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Selected Works Gallery (Expanded to 6 Images) */}
-      <section className="w-full px-6 md:px-12 lg:px-24 pb-24 md:pb-40 bg-luxury-dark">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="flex justify-between items-end mb-12"
-        >
-          <h3 className="text-xs md:text-sm tracking-[0.3em] uppercase text-luxury-gold">Selected Works</h3>
-          <a href="#" className="text-xs tracking-[0.1em] border-b border-luxury-cream/30 pb-1 hover:border-luxury-cream transition-colors">VIEW ARCHIVE</a>
-        </motion.div>
+      {/* Selected Works - Magazine Style Grid */}
+      <section className="pb-40 px-6 md:px-12 lg:px-24">
+        <div className="flex justify-between items-end mb-16">
+          <h2 className="text-4xl md:text-6xl font-serif">Portfolio</h2>
+          <span className="text-[10px] tracking-widest opacity-40 mb-2">01 / 06</span>
+        </div>
 
-        {/* 6 Image Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
-          
-          {/* Row 1 */}
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.1 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
-            <img src="/gallery-1.jpg" alt="Editorial 1" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-          
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.3 }} className="w-full h-[60vh] md:h-[80vh] md:mt-12 bg-neutral-900">
-            <img src="/gallery-2.jpg" alt="Editorial 2" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-          
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.5 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
-            <img src="/gallery-3.jpg" alt="Editorial 3" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-
-          {/* Row 2 */}
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.2 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
-            <img src="/gallery-4.jpg" alt="Editorial 4" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-          
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.4 }} className="w-full h-[60vh] md:h-[80vh] md:mt-12 bg-neutral-900">
-            <img src="/gallery-5.jpg" alt="Editorial 5" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-          
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.6 }} className="w-full h-[60vh] md:h-[80vh] bg-neutral-900">
-            <img src="/gallery-6.jpg" alt="Editorial 6" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {['gallery-2.jpg', 'gallery-3.jpg', 'gallery-4.jpg', 'gallery-5.jpg', 'gallery-6.jpg', 'hero-bg.jpg'].map((img, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className={`group cursor-pointer ${i === 1 ? 'md:mt-20' : ''} ${i === 4 ? 'lg:-mt-20' : ''}`}
+            >
+              <div className="overflow-hidden mb-4 aspect-[3/4]">
+                <img src={`/${img}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-80 group-hover:opacity-100" />
+              </div>
+              <p className="text-[9px] tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 group-hover:text-luxury-gold transition-all">
+                Collection 2026 — No. 0{i + 1}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Footer CTA */}
-      <footer className="w-full py-24 md:py-32 bg-[#0a0a0a] flex flex-col items-center text-center px-6 border-t border-white/5 relative overflow-hidden">
-        <svg className="absolute w-[800px] h-[800px] opacity-5 -top-40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="48" stroke="#F9F8F6" strokeWidth="0.5"/>
-          <path d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45L50 0Z" stroke="#F9F8F6" strokeWidth="0.5"/>
-        </svg>
-
-        <h2 className="text-3xl md:text-5xl font-serif mb-8 text-luxury-cream relative z-10">Reserve Your Session</h2>
-        <p className="text-sm text-luxury-cream/60 mb-10 tracking-widest uppercase relative z-10">Milan — London — Worldwide</p>
-        <button className="border border-luxury-gold text-luxury-gold px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-luxury-gold hover:text-luxury-dark transition-all duration-700 relative z-10">
-          Inquire Now
-        </button>
+      <footer className="bg-white text-black py-32 px-6 text-center">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+          <p className="text-xs tracking-[0.5em] uppercase mb-8">Ready to begin?</p>
+          <h2 className="text-4xl md:text-7xl font-serif mb-12 italic">Secure Your Date</h2>
+          <button className="px-12 py-5 bg-black text-white text-[10px] tracking-[0.4em] uppercase hover:bg-luxury-gold transition-colors">
+            Inquire Now
+          </button>
+        </motion.div>
       </footer>
     </div>
   );
