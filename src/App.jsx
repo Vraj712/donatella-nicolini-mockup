@@ -46,10 +46,10 @@ function App() {
             exit="closed"
             className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col justify-center items-center"
           >
-            {/* Close Button */}
+            {/* Close Button - Fixed to be highly clickable */}
             <button 
               onClick={() => setIsMenuOpen(false)}
-              className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500"
+              className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 z-[110] cursor-pointer"
             >
               <span className="hidden md:inline">CLOSE</span>
               <X size={24} strokeWidth={1} />
@@ -87,23 +87,26 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Navigation */}
-      <nav className="fixed w-full top-0 z-50 flex justify-between items-center px-6 py-6 md:px-12 mix-blend-difference">
-        <div className="text-xs md:text-sm tracking-[0.2em] font-light hidden md:block">MILAN / LONDON</div>
-        <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto cursor-pointer">
+      {/* Navigation - Fixed clickability issues */}
+      <nav className="fixed w-full top-0 z-[60] flex justify-between items-center px-6 py-6 md:px-12 pointer-events-none">
+        <div className="text-xs md:text-sm tracking-[0.2em] font-light hidden md:block mix-blend-difference pointer-events-auto">MILAN / LONDON</div>
+        <div className="text-lg md:text-2xl font-serif tracking-widest text-center w-full md:w-auto cursor-pointer mix-blend-difference pointer-events-auto">
           DONATELLA NICOLINI
         </div>
+        
+        {/* Desktop menu trigger */}
         <button 
           onClick={() => setIsMenuOpen(true)}
-          className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500"
+          className="hidden md:flex items-center gap-2 text-xs md:text-sm tracking-widest hover:text-luxury-gold transition-colors duration-500 pointer-events-auto cursor-pointer mix-blend-difference"
         >
           <MenuIcon size={20} strokeWidth={1} />
           <span>MENU</span>
         </button>
+
         {/* Mobile menu trigger */}
         <button 
           onClick={() => setIsMenuOpen(true)}
-          className="md:hidden absolute right-6 text-luxury-cream mix-blend-difference"
+          className="md:hidden absolute right-6 text-luxury-cream pointer-events-auto cursor-pointer mix-blend-difference"
         >
           <MenuIcon size={24} strokeWidth={1} />
         </button>
@@ -120,9 +123,9 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-luxury-dark/30 via-transparent to-luxury-dark"></div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center mt-20 px-4">
+        <div className="relative z-10 flex flex-col items-center justify-center text-center mt-20 px-4 w-full">
           
-          {/* Custom Luxury SVG Emblem */}
+          {/* Custom Luxury SVG Emblem - Fixed Centering */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1, rotate: 360 }}
@@ -131,7 +134,7 @@ function App() {
               scale: { duration: 2, delay: 0.2 },
               rotate: { duration: 40, repeat: Infinity, ease: "linear" } 
             }}
-            className="mb-8 opacity-80"
+            className="mb-8 opacity-80 mx-auto flex justify-center items-center w-full"
           >
             <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="48" stroke="#C5A880" strokeWidth="1" strokeDasharray="4 4"/>
@@ -162,7 +165,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2, ease: "easeOut", delay: 1.5 }}
-            className="border border-luxury-cream/50 px-8 py-3 md:px-10 md:py-4 text-[10px] md:text-xs tracking-[0.2em] uppercase hover:bg-luxury-cream hover:text-luxury-dark transition-all duration-700"
+            className="border border-luxury-cream/50 px-8 py-3 md:px-10 md:py-4 text-[10px] md:text-xs tracking-[0.2em] uppercase hover:bg-luxury-cream hover:text-luxury-dark transition-all duration-700 pointer-events-auto cursor-pointer"
           >
             Begin Your Journey
           </motion.button>
@@ -233,7 +236,6 @@ function App() {
 
       {/* Footer CTA */}
       <footer className="w-full py-24 md:py-32 bg-[#0a0a0a] flex flex-col items-center text-center px-6 border-t border-white/5 relative overflow-hidden">
-        {/* Subtle background SVG in footer */}
         <svg className="absolute w-[800px] h-[800px] opacity-5 -top-40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="50" cy="50" r="48" stroke="#F9F8F6" strokeWidth="0.5"/>
           <path d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45L50 0Z" stroke="#F9F8F6" strokeWidth="0.5"/>
